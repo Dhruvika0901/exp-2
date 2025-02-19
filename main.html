@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Mini Projects</title>
+    <style>
+        body {
+            text-align: center;
+            transition: background-color 1s;
+        }
+        #clock {
+            font-size: 2em;
+            margin: 20px;
+        }
+        #bulb {
+            width: 100px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>JavaScript Mini Projects</h1>
+    
+    <!-- Digital Clock -->
+    <div id="clock"></div>
+    
+    <!-- Calculator -->
+    <div>
+        <input type="number" id="num1"> 
+        <select id="operator">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+        </select> 
+        <input type="number" id="num2">
+        <button onclick="calculate()">=</button>
+        <span id="result"></span>
+    </div>
+    
+    <!-- Bulb On/Off -->
+    <div>
+        <img id="bulb" src="https://www.w3schools.com/js/pic_bulboff.gif" onclick="toggleBulb()">
+    </div>
+    
+    <!-- Show/Hide Paragraph -->
+    <div>
+        <p id="content">This is some content to show or hide.</p>
+        <button onclick="toggleContent()">Show/Hide</button>
+    </div>
+
+    <script>
+        // Digital Clock
+        function updateClock() {
+            document.getElementById("clock").innerText = new Date().toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Change Background Color every 5 seconds
+        function changeBgColor() {
+            let colors = ["lightblue", "lightgreen", "lightcoral", "lightyellow", "lightpink"];
+            document.body.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        }
+        setInterval(changeBgColor, 5000);
+
+        // Simple Calculator
+        function calculate() {
+            let num1 = parseFloat(document.getElementById("num1").value);
+            let num2 = parseFloat(document.getElementById("num2").value);
+            let operator = document.getElementById("operator").value;
+            let result;
+            switch(operator) {
+                case "+": result = num1 + num2; break;
+                case "-": result = num1 - num2; break;
+                case "*": result = num1 * num2; break;
+                case "/": result = num2 !== 0 ? num1 / num2 : "Error"; break;
+                default: result = "Invalid";
+            }
+            document.getElementById("result").innerText = result;
+        }
+
+        // Bulb On/Off
+        function toggleBulb() {
+            let bulb = document.getElementById("bulb");
+            if (bulb.src.includes("pic_bulboff.gif")) {
+                bulb.src = "https://www.w3schools.com/js/pic_bulbon.gif";
+            } else {
+                bulb.src = "https://www.w3schools.com/js/pic_bulboff.gif";
+            }
+        }
+
+        // Show/Hide Content
+        function toggleContent() {
+            let content = document.getElementById("content");
+            content.style.display = content.style.display === "none" ? "block" : "none";
+        }
+    </script>
+</body>
+</html>
