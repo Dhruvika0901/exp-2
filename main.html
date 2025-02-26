@@ -3,99 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JS Mini Projects</title>
+    <title>Interactive Web Page</title>
     <style>
         body {
             text-align: center;
-            transition: background-color 1s;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.5s;
         }
         #clock {
-            font-size: 2em;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px;
+        }
+        .bulb-container {
             margin: 20px;
         }
         #bulb {
             width: 100px;
+            height: 150px;
+        }
+        .btn {
+            padding: 10px;
+            margin: 5px;
+            font-size: 16px;
             cursor: pointer;
+        }
+        .form-container {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>JavaScript Mini Projects</h1>
-    
-    <!-- Digital Clock -->
+
+    <!-- Display Date and Time -->
+    <h2 id="date"></h2>
     <div id="clock"></div>
-    
-    <!-- Calculator -->
-    <div>
-        <input type="number" id="num1"> 
-        <select id="operator">
-            <option value="+">+</option>
-            <option value="-">-</option>
-            <option value="*">*</option>
-            <option value="/">/</option>
-        </select> 
-        <input type="number" id="num2">
-        <button onclick="calculate()">=</button>
-        <span id="result"></span>
+
+    <!-- Bulb ON/OFF Section -->
+    <div class="bulb-container">
+        <img id="bulb" src="https://www.w3schools.com/js/pic_bulboff.gif" alt="Bulb">
+        <br>
+        <button class="btn" onclick="turnOn()">Turn ON</button>
+        <button class="btn" onclick="turnOff()">Turn OFF</button>
     </div>
-    
-    <!-- Bulb On/Off -->
-    <div>
-        <img id="bulb" src="https://www.w3schools.com/js/pic_bulboff.gif" onclick="toggleBulb()">
+
+    <!-- DOM Manipulation Buttons -->
+    <div id="dom-section">
+        <button class="btn" onclick="addElement()">Add Element</button>
+        <button class="btn" onclick="removeElement()">Remove Element</button>
+        <button class="btn" onclick="replaceElement()">Replace Element</button>
     </div>
-    
-    <!-- Show/Hide Paragraph -->
-    <div>
-        <p id="content">This is some content to show or hide.</p>
-        <button onclick="toggleContent()">Show/Hide</button>
+
+    <!-- Form Validation -->
+    <div class="form-container">
+        <h3>Form Validation</h3>
+        <form onsubmit="return validateForm()">
+            <input type="text" id="username" placeholder="Enter your name">
+            <span id="error-msg" style="color: red;"></span>
+            <br><br>
+            <button class="btn" type="submit">Submit</button>
+        </form>
     </div>
 
     <script>
+        // Display current date
+        function updateDate() {
+            const today = new Date();
+            document.getElementById("date").innerText = today.toDateString();
+        }
+        updateDate();
+
         // Digital Clock
         function updateClock() {
-            document.getElementById("clock").innerText = new Date().toLocaleTimeString();
+            const now = new Date();
+            document.getElementById("clock").innerText = now.toLocaleTimeString();
         }
         setInterval(updateClock, 1000);
         updateClock();
 
-        // Change Background Color every 5 seconds
-        function changeBgColor() {
-            let colors = ["lightblue", "lightgreen", "lightcoral", "lightyellow", "lightpink"];
+        // Change background color every 5 seconds
+        function changeBackground() {
+            const colors = ["#ff5733", "#33ff57", "#3357ff", "#f3ff33", "#ff33f3"];
             document.body.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
         }
-        setInterval(changeBgColor, 5000);
+        setInterval(changeBackground, 5000);
 
-        // Simple Calculator
-        function calculate() {
-            let num1 = parseFloat(document.getElementById("num1").value);
-            let num2 = parseFloat(document.getElementById("num2").value);
-            let operator = document.getElementById("operator").value;
-            let result;
-            switch(operator) {
-                case "+": result = num1 + num2; break;
-                case "-": result = num1 - num2; break;
-                case "*": result = num1 * num2; break;
-                case "/": result = num2 !== 0 ? num1 / num2 : "Error"; break;
-                default: result = "Invalid";
-            }
-            document.getElementById("result").innerText = result;
+        // Bulb ON/OFF functions
+        function turnOn() {
+            document.getElementById("bulb").src = "https://www.w3schools.com/js/pic_bulbon.gif";
+        }
+        function turnOff() {
+            document.getElementById("bulb").src = "https://www.w3schools.com/js/pic_bulboff.gif";
         }
 
-        // Bulb On/Off
-        function toggleBulb() {
-            let bulb = document.getElementById("bulb");
-            if (bulb.src.includes("pic_bulboff.gif")) {
-                bulb.src = "https://www.w3schools.com/js/pic_bulbon.gif";
-            } else {
-                bulb.src = "https://www.w3schools.com/js/pic_bulboff.gif";
+        // DOM Manipulation: Add a new element
+        function addElement() {
+            const newElement = document.createElement("p");
+            newElement.id = "newText";
+            newElement.innerText = "New Element Added!";
+            document.getElementById("dom-section").appendChild(newElement);
+        }
+
+        // DOM Manipulation: Remove an existing element
+        function removeElement() {
+            const element = document.getElementById("newText");
+            if (element) {
+                element.remove();
             }
         }
 
-        // Show/Hide Content
-        function toggleContent() {
-            let content = document.getElementById("content");
-            content.style.display = content.style.display === "none" ? "block" : "none";
+        // DOM Manipulation: Replace an existing element
+        function replaceElement() {
+            const newElement = document.createElement("h4");
+            newElement.innerText = "Element Replaced!";
+            const oldElement = document.getElementById("newText");
+            if (oldElement) {
+                document.getElementById("dom-section").replaceChild(newElement, oldElement);
+            }
+        }
+
+        // Form validation
+        function validateForm() {
+            const username = document.getElementById("username").value;
+            const errorMsg = document.getElementById("error-msg");
+
+            if (username.trim() === "") {
+                errorMsg.innerText = "Name cannot be empty!";
+                return false;
+            }
+            errorMsg.innerText = "";
+            alert("Form submitted successfully!");
+            return true;
         }
     </script>
+
 </body>
 </html>
